@@ -14,5 +14,3 @@ if __name__ == '__main__':
         ser.write(b"HOT\n")
 
 #testen ob es pushed
-
-# Version1 testen
