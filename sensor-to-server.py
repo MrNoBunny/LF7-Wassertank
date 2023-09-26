@@ -18,7 +18,7 @@ if __name__ == '__main__':
     if ser.in_waiting > 0:
       line = ser.readline().decode('utf-8').rstrip()
       daten = line.split(", ")
-      print("Wassermesser:",daten[0])
+      print("Wasserdetektor:",daten[0])
       print("Wasserstand:",daten[1])
 
       # Anfrage vom Client starten
