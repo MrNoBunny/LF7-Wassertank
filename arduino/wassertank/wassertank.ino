@@ -7,7 +7,8 @@ String command;
 //int waterPin = 1;
 
 // pin für Pumpe
-int pumpePin = 2;
+int pumpe1Pin = 2;
+int pumpe2Pin = 13;
 
 // include the LCD library code:
 #include <LiquidCrystal.h>
@@ -31,9 +32,10 @@ long wasserstand2;
 
 void setup() {
   // setup LED pin
-  pinMode(13, OUTPUT);
+  //pinMode(13, OUTPUT);
   // setup Pumpen pin
   pinMode(2, OUTPUT);
+  pinMode(13, OUTPUT);
   // set up the LCD's number of columns and rows:
   lcd.begin(16, 2);
   // Print a message to the LCD.
@@ -91,19 +93,24 @@ void loop() {
     command = Serial.readStringUntil('\n');
     command.trim();
   // Befehlt bearbeiten
-    if (command.equals("PUMPEN")){
-      digitalWrite(2,HIGH);
+    if (command.equals("PUMPEN_1")){
+      digitalWrite(pumpe1Pin,HIGH);
     }else{
-      digitalWrite(2,LOW) ;
+      digitalWrite(pumpe1Pin,LOW) ;
+    }
+    if (command.equals("PUMPEN_2")){
+      digitalWrite(pumpe2Pin,HIGH);
+    }else{
+      digitalWrite(pumpe2Pin,LOW) ;
     }
   }
 
   // Warn-LED bei vollem Tank
-  if ((abstand1 > 40) || (abstand1 < 5) || (abstand2 > 40) || (abstand2 < 5)) {
-    digitalWrite(13,HIGH);
-  }else{
-    digitalWrite(13,LOW) ;
-  }
+  //if ((abstand1 > 40) || (abstand1 < 5) || (abstand2 > 40) || (abstand2 < 5)) {
+  //  digitalWrite(13,HIGH);
+  //}else{
+  //  digitalWrite(13,LOW) ;
+  //}
 
   delay(1000);
 }
