@@ -4,7 +4,7 @@
 String command;
 
 // pin for water sensor
-int waterPin = 1;
+//int waterPin = 1;
 
 // include the LCD library code:
 #include <LiquidCrystal.h>
@@ -36,16 +36,16 @@ void setup() {
 }
 
 void loop() {
-  //Auslesen des Wassersensors
-  int waterReading = analogRead(waterPin);
+  // Auslesen des Wassersensors
+  //int waterReading = analogRead(waterPin);
 
-  //measure the distance
+  // measure the distance
   abstand1=tank1.Distance();
   abstand2=tank2.Distance();
   
   // write serial output
-  Serial.print(waterReading);
-  Serial.print(", ");
+  //Serial.print(waterReading);
+  //Serial.print(", ");
   Serial.print(abstand1);
   Serial.print(", ");
   Serial.print(abstand2);
@@ -55,20 +55,22 @@ void loop() {
   // set the cursor to column 0, line 1
   // (note: line 1 is the second row, since counting begins with 0):
   lcd.setCursor(0, 1);
-  //clear the line
+  // clear the line
   for(int n = 0; n < 16; n++) {
     lcd.print(" ");
   }
   // print the distance
+  // Tank 1 in first half of second row
   lcd.setCursor(0, 1);
   lcd.print(abstand1);
   lcd.print("cm");
+  // Tank 2 in second half of second row
   lcd.setCursor(7, 1);
   lcd.print("| ");
   lcd.print(abstand2);
   lcd.print("cm");
 
-  // Empfang des Befehles des Pis
+  // Empfang von Befehlen des Pis
   if(Serial.available()){
     command = Serial.readStringUntil('\n');
     command.trim();
@@ -79,6 +81,14 @@ void loop() {
       digitalWrite(13,LOW) ;
     }
   }
+
+  // Warn-LED bei vollem Tank
+  if ((abstand1 > 40) || (abstand1 < 5) || (abstand2 > 40) || (abstand2 < 5)) {
+    digitalWrite(13,HIGH);
+  }else{
+    digitalWrite(13,LOW) ;
+  }
+
   delay(1000);
 }
 
