@@ -14,7 +14,9 @@ while True:
   message = message.decode( 'utf-8' )
   # Antworten mit den Sensordaten..
   daten = message.split(", ")
-  wasserdet = daten[0]
-  wassersta = daten[1]
-  print("Wasserdetektor:",wasserdet)
-  print("Wasserstand:",wassersta ,"cm")
+  #wasserdet = daten[0]
+  wassertank1 = daten[0]
+  wassertank2 = daten[1]
+  #print("Wasserdetektor:",wasserdet)
+  print("Der Luftraum im 1. Tank beträgt", wassertank1 ,"cm")
+  print("Der Luftraum im 2. Tank beträgt", wassertank2, "cm")
