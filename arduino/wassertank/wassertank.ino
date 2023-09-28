@@ -6,6 +6,9 @@ String command;
 // pin for water sensor
 //int waterPin = 1;
 
+// pin für Pumpe
+int pumpePin = 2;
+
 // include the LCD library code:
 #include <LiquidCrystal.h>
 // initialize the LCD library with the numbers of the interface pins
@@ -22,10 +25,15 @@ SR04 tank1 = SR04(ECHO_PIN1,TRIG_PIN1);
 SR04 tank2 = SR04(ECHO_PIN2,TRIG_PIN2);
 long abstand1;
 long abstand2;
+long wasserstand1;
+long wasserstand2;
+
 
 void setup() {
   // setup LED pin
   pinMode(13, OUTPUT);
+  // setup Pumpen pin
+  pinMode(2, OUTPUT);
   // set up the LCD's number of columns and rows:
   lcd.begin(16, 2);
   // Print a message to the LCD.
@@ -42,10 +50,18 @@ void loop() {
   // measure the distance
   abstand1=tank1.Distance();
   abstand2=tank2.Distance();
+
+  // calculate wasserstand
+  wasserstand1=10-abstand1;
+  wasserstand2=10-abstand2;
   
   // write serial output
   //Serial.print(waterReading);
   //Serial.print(", ");
+  Serial.print(wasserstand1);
+  Serial.print(", ");
+  Serial.print(wasserstand2);
+  Serial.print(", ");
   Serial.print(abstand1);
   Serial.print(", ");
   Serial.print(abstand2);
@@ -62,12 +78,12 @@ void loop() {
   // print the distance
   // Tank 1 in first half of second row
   lcd.setCursor(0, 1);
-  lcd.print(abstand1);
+  lcd.print(wasserstand1);
   lcd.print("cm");
   // Tank 2 in second half of second row
   lcd.setCursor(7, 1);
   lcd.print("| ");
-  lcd.print(abstand2);
+  lcd.print(wasserstand2);
   lcd.print("cm");
 
   // Empfang von Befehlen des Pis
@@ -75,10 +91,10 @@ void loop() {
     command = Serial.readStringUntil('\n');
     command.trim();
   // Befehlt bearbeiten
-    if (command.equals("WARNING")){
-      digitalWrite(13,HIGH);
+    if (command.equals("PUMPEN")){
+      digitalWrite(2,HIGH);
     }else{
-      digitalWrite(13,LOW) ;
+      digitalWrite(2,LOW) ;
     }
   }
 
