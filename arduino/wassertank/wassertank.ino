@@ -14,11 +14,14 @@ LiquidCrystal lcd(7, 8, 6, 5, 4, 3);
 // include Ultrasonic Distance Measurement library
 #include <SR04.h>
 // define the pins and initialize the Ultrasonic Distance Measurement library
-#define TRIG_PIN 12
-#define ECHO_PIN 11
-SR04 sr04 = SR04(ECHO_PIN,TRIG_PIN);
-long abstand;
-
+#define TRIG_PIN1 12
+#define ECHO_PIN1 11
+#define TRIG_PIN2 9
+#define ECHO_PIN2 10
+SR04 tank1 = SR04(ECHO_PIN1,TRIG_PIN1);
+SR04 tank2 = SR04(ECHO_PIN2,TRIG_PIN2);
+long abstand1;
+long abstand2;
 
 void setup() {
   // setup LED pin
@@ -37,12 +40,15 @@ void loop() {
   int waterReading = analogRead(waterPin);
 
   //measure the distance
-  abstand=sr04.Distance();
+  abstand1=tank1.Distance();
+  abstand2=tank2.Distance();
   
   // write serial output
   Serial.print(waterReading);
   Serial.print(", ");
-  Serial.print(abstand);
+  Serial.print(abstand1);
+  Serial.print(", ");
+  Serial.print(abstand2);
   Serial.print("\n");
   
   // Write LCD Output
@@ -55,8 +61,12 @@ void loop() {
   }
   // print the distance
   lcd.setCursor(0, 1);
-  lcd.print(abstand);
-  lcd.print(" cm");
+  lcd.print(abstand1);
+  lcd.print("cm");
+  lcd.setCursor(7, 1);
+  lcd.print("| ");
+  lcd.print(abstand2);
+  lcd.print("cm");
 
   // Empfang des Befehles des Pis
   if(Serial.available()){
