@@ -22,6 +22,9 @@ SR04 tank1 = SR04(ECHO_PIN1,TRIG_PIN1);
 SR04 tank2 = SR04(ECHO_PIN2,TRIG_PIN2);
 long abstand1;
 long abstand2;
+long wasserstand1;
+long wasserstand2;
+
 
 void setup() {
   // setup LED pin
@@ -42,13 +45,17 @@ void loop() {
   // measure the distance
   abstand1=tank1.Distance();
   abstand2=tank2.Distance();
+
+  // calculate wasserstand
+  wasserstand1=10-abstand1;
+  wasserstand2=10-abstand2;
   
   // write serial output
   //Serial.print(waterReading);
   //Serial.print(", ");
-  Serial.print(abstand1);
+  Serial.print(wasserstand1);
   Serial.print(", ");
-  Serial.print(abstand2);
+  Serial.print(wasserstand2);
   Serial.print("\n");
   
   // Write LCD Output
@@ -62,12 +69,12 @@ void loop() {
   // print the distance
   // Tank 1 in first half of second row
   lcd.setCursor(0, 1);
-  lcd.print(abstand1);
+  lcd.print(wasserstand1);
   lcd.print("cm");
   // Tank 2 in second half of second row
   lcd.setCursor(7, 1);
   lcd.print("| ");
-  lcd.print(abstand2);
+  lcd.print(wasserstand2);
   lcd.print("cm");
 
   // Empfang von Befehlen des Pis
