@@ -19,6 +19,8 @@ while True:
   #Daten des Wassertanks in Variablen teilen
   wassertank1 = daten[0]
   wassertank2 = daten[1]
+  timestamp = datetime.datetime.now()
   #print("Wasserdetektor:",wasserdet)
   print("Der Luftraum im 1. Tank betraegt", wassertank1 ,"cm")
   print("Der Luftraum im 2. Tank betraegt", wassertank2, "cm")
+  print(now.strftime("%y-%m-%d %H:%M:%S"))
