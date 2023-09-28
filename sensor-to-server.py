@@ -26,10 +26,15 @@ if __name__ == '__main__':
       #else:
       #  regen = False
 
+      # Wassermenge berechnen
+      wassermenge = [(3.14*5.5*5.5*float(daten[0]))/1000, (3.14*5.5*5.5*float(daten[1]))/1000]
+
       # Daten lokal anzeigen
       #print("Regnen:", regen)
-      print("Wasserstand Tank 1:",daten[0]+"cm Luft im Tank")
-      print("Wasserstand Tank 2:",daten[1]+"cm Luft im Tank")
+      print("Wasserstand Tank 1:",daten[0]+"cm")
+      print("Wassermenge Tank 1:",str(round(wassermenge[0],2))+" Liter")
+      print("Wasserstand Tank 2:",daten[1]+"cm")
+      print("Wassermenge Tank 2:",str(round(wassermenge[1],2))+" Liter")
 
       # Daten zum Server senden
       bytesToSend = daten[0]+", "+daten[1]
