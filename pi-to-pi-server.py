@@ -15,8 +15,10 @@ while True:
   # Antworten mit den Sensordaten..
   daten = message.split(", ")
   #wasserdet = daten[0]
+
+  #Daten des Wassertanks in Variablen teilen
   wassertank1 = daten[0]
   wassertank2 = daten[1]
   #print("Wasserdetektor:",wasserdet)
-  print("Der Luftraum im 1. Tank beträgt", wassertank1 ,"cm")
-  print("Der Luftraum im 2. Tank beträgt", wassertank2, "cm")
+  print("Der Luftraum im 1. Tank betraegt", wassertank1 ,"cm")
+  print("Der Luftraum im 2. Tank betraegt", wassertank2, "cm")

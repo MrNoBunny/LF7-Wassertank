@@ -1,18 +1,18 @@
 # Wichtige Bibliothek
 import socket
 import serial
-#import time
+import time
 
 if __name__ == '__main__':
   #Serielle Verbindung zum Arduino erstellen
   ser = serial.Serial( '/dev/ttyACM0' , 9600, timeout=1)
   ser.flush()
-  
+
   #Socket/UDP-Verbindung zum Server erstellen
   serverAddress = ('192.168.123.10' , 2222)
   bufferSize = 1024
   UDPClient = socket.socket (socket.AF_INET, socket.SOCK_DGRAM)
-  
+
   while True:
     # Serial Connection auslesen
     if ser.in_waiting > 0:
@@ -20,25 +20,32 @@ if __name__ == '__main__':
 
       # Daten auswerten
       daten = line.split(", ")
-      if (float(daten[0]) > 100):
-        regen = True
-      else:
-        regen = False
-        
+
+      #if (float(daten[0]) > 100):
+      #  regen = True
+      #else:
+      #  regen = False
+
       # Daten lokal anzeigen
-      print("Regnen:", regen)
-      print("Wasserstand:",daten[1]+"cm Luft im Tank")
-      
+      #print("Regnen:", regen)
+      print("Wasserstand Tank 1:",daten[0]+"cm Luft im Tank")
+      print("Wasserstand Tank 2:",daten[1]+"cm Luft im Tank")
+
       # Daten zum Server senden
-      bytesToSend = str(regen)+", "+daten[1]
+      bytesToSend = daten[0]+", "+daten[1]
       bytesToSend = bytesToSend.encode('utf-8')
       UDPClient.sendto(bytesToSend, serverAddress)
-      
+
       # Daten an Arduino senden
-      if (float(daten[1])<5) or (float(daten[1])>100):
-        print("Tank voll")
+      if (float(daten[0])<5) or (float(daten[0])>40):
+        print("Tank 1 voll")
         ser.write(b"WARNING\n ")
-      
+      if (float(daten[1])<5) or (float(daten[1])>40):
+        print("Tank 2 voll")
+        ser.write(b"WARNING\n ")
+
+    time.sleep(0.1)
+
 # Warten auf Antwort
 #data,address =UDPClient.recvfrom(bufferSize)
 #Daten vom Server verarbeiten bzw. ausgeben..
