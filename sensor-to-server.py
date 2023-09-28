@@ -42,12 +42,12 @@ if __name__ == '__main__':
       UDPClient.sendto(bytesToSend, serverAddress)
 
       # Daten an Arduino senden
-      if (float(daten[0])<5) or (float(daten[0])>40):
-        print("Tank 1 voll")
-        ser.write(b"WARNING\n ")
-      if (float(daten[1])<5) or (float(daten[1])>40):
-        print("Tank 2 voll")
-        ser.write(b"WARNING\n ")
+      if (float(daten[2])<4) or (float(daten[2])>20):
+        print("Tank 1 voll -> Pumpen!")
+        ser.write(b"PUMPEN\n ")
+      #if (float(daten[1])<5) or (float(daten[1])>40):
+      #  print("Tank 2 voll")
+      #  ser.write(b"WARNING\n ")
 
     time.sleep(0.1)
 

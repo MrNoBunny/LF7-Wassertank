@@ -6,6 +6,9 @@ String command;
 // pin for water sensor
 //int waterPin = 1;
 
+// pin für Pumpe
+int pumpePin = 2;
+
 // include the LCD library code:
 #include <LiquidCrystal.h>
 // initialize the LCD library with the numbers of the interface pins
@@ -29,6 +32,8 @@ long wasserstand2;
 void setup() {
   // setup LED pin
   pinMode(13, OUTPUT);
+  // setup Pumpen pin
+  pinMode(2, OUTPUT);
   // set up the LCD's number of columns and rows:
   lcd.begin(16, 2);
   // Print a message to the LCD.
@@ -56,6 +61,10 @@ void loop() {
   Serial.print(wasserstand1);
   Serial.print(", ");
   Serial.print(wasserstand2);
+  Serial.print(", ");
+  Serial.print(abstand1);
+  Serial.print(", ");
+  Serial.print(abstand2);
   Serial.print("\n");
   
   // Write LCD Output
@@ -82,10 +91,10 @@ void loop() {
     command = Serial.readStringUntil('\n');
     command.trim();
   // Befehlt bearbeiten
-    if (command.equals("WARNING")){
-      digitalWrite(13,HIGH);
+    if (command.equals("PUMPEN")){
+      digitalWrite(2,HIGH);
     }else{
-      digitalWrite(13,LOW) ;
+      digitalWrite(2,LOW) ;
     }
   }
 
