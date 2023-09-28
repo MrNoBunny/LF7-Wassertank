@@ -31,10 +31,12 @@ while True:
   #Daten des Wassertanks in Variablen teilen
   wassertank1 = daten[0]
   wassertank2 = daten[1]
-  timestamp = datetime.datetime.now()
+  dateandtime = datetime.datetime.now()
   # Execute the sql script
-  my_cursor.execute("INSERT INTO tanks (tank1, tank2, timestamp)VALUES(%s;%s,%s)",
-                    (wassertank1, wassertank2, timestamp)
+  alldata = (wassertank1, wassertank2, dateandtime)
+  sql = ("INSERT INTO tanks(tank1, tank2, timestamp)"
+            "VALUES(%s,%s,%s)"
   )
+  my_cursor.execute(sql, alldata)
   # confirm changes to the database
-  my_cursor.commit()
+  my_db.commit()
