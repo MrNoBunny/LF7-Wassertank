@@ -1,6 +1,7 @@
 # Einbinden der Bibliotheken
 import socket
 import time
+import datetime
 bufferSize = 1024 # Wie viele Bytes sollen ausgetauscht werden?
 ServerPort = 2222 # Freie Wahl eines verfuegbaren Ports
 ServerIP = '192.168.123.10' # Diese IP-Adresse muesst ihr vom Pi
@@ -23,4 +24,4 @@ while True:
   #print("Wasserdetektor:",wasserdet)
   print("Der Luftraum im 1. Tank betraegt", wassertank1 ,"cm")
   print("Der Luftraum im 2. Tank betraegt", wassertank2, "cm")
-  print(now.strftime("%y-%m-%d %H:%M:%S"))
+  print(timestamp.strftime("%y-%m-%d %H:%M:%S"))
