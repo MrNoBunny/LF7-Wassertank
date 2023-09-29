@@ -60,7 +60,10 @@ def pi_pi_arduino():
     print("Befehl erhalten von "+address[0]+":",befehl)
     # Befehl zum Pumpen an Arduino weiterleiten
     if befehl == "PUMPEN":
-      ser.write(b"PUMPEN\n ")
+      ser.write(b"PUMPEN_2")
+    if befehl == "STOPP":
+      ser.write(b"\nSTOPP\n ")
+      
 
 if __name__ == '__main__':
   #Serielle Verbindung zum Arduino erstellen
