@@ -40,3 +40,12 @@ while True:
   my_cursor.execute(sql, alldata)
   # confirm changes to the database
   my_db.commit()
+
+  #Delete the last entry if the table has 60 entry
+  #Select the count from the table
+  my_cursor.execute("SELECT COUNT(*) FROM tanks")
+  result = my_cursor.fetchone()
+
+  if result[0] >= 60:
+    my_cursor.execute("DELETE FROM tanks ORDER BY timestamp ASC LIMIT 1")
+    my_db.commit
