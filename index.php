@@ -38,6 +38,27 @@ if ($result->num_rows > 0) {
 
 // Close the database connection
 $connection->close();
+
+// Funktion zum Pumpen
+function pumpen() {
+	// UDP Socket erstellen
+	$sock = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
+	// Verbindung herstellen
+	$server_ip = '192.168.123.20';
+	$server_port = 2222;
+	socket_connect($sock,$server_ip,$server_port);
+	// Befehle senden
+	$befehl = 'PUMPEN';
+	socket_send($sock,$befehl,strlen($befehl),0);
+	sleep(5);
+	$befehl = 'STOPP';
+	socket_send($sock,$befehl,strlen($befehl),0);
+}
+
+if(array_key_exists('pumpen', $_POST)) {
+	pumpen();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -53,6 +74,10 @@ $connection->close();
 </head>
 <body>
     <img src="LF7_Logo_Ecke.png" alt="LF7" class="header-image">
+	
+	<form method="post">
+        <input type="submit" name="pumpen" class="button" value="5 Sekunden lang pumpen" />
+    </form>
     
     <?php
     // Display the data initially
