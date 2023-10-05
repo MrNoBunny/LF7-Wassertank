@@ -79,7 +79,10 @@ def pi_pi_arduino():
       
 if __name__ == '__main__':
   #Serielle Verbindung zum Arduino erstellen
-  ser = serial.Serial( '/dev/ttyACM0' , 9600, timeout=1)
+  try:
+    ser = serial.Serial( '/dev/ttyACM0' , 9600, timeout=1)
+  except:
+    ser = serial.Serial( '/dev/ttyACM1' , 9600, timeout=1)
   ser.flush()
 
   # Buffer Size der UDP Sokets
