@@ -53,6 +53,6 @@ while True:
   my_cursor.execute("SELECT COUNT(*) FROM tanks")
   result = my_cursor.fetchone()
 
-  if result[0] >= 60:
+  if result[0] >= 600:
     my_cursor.execute("DELETE FROM tanks ORDER BY timestamp ASC LIMIT 1")
     my_db.commit
