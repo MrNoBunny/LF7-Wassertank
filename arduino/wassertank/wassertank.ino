@@ -1,23 +1,20 @@
 // Wassertank 
 
-// Der Befehl, den der Pi an den Arduino sendet
+// Variable für Befehl, den der Pi an den Arduino sendet
 String command;
 
-// pin for water sensor
-//int waterPin = 1;
-
-// pin für Pumpe
+// Pins für die Pumpen definieren
 int pumpe1Pin = 2;
 int pumpe2Pin = 13;
 
-// include the LCD library code:
+// Code-Bibliothek für das LCD
 #include <LiquidCrystal.h>
-// initialize the LCD library with the numbers of the interface pins
+// LCD initialisieren, mit den Nummern der Interface-Pins
 LiquidCrystal lcd(7, 8, 6, 5, 4, 3);
 
-// include Ultrasonic Distance Measurement library
+// Code-Bibliothek für Ultraschall-Entfernungsmessung
 #include <SR04.h>
-// define the pins and initialize the Ultrasonic Distance Measurement library
+// Definieren der Pins und initialisien der Ultraschall-Entfernungsmessung
 #define TRIG_PIN1 12
 #define ECHO_PIN1 11
 #define TRIG_PIN2 9
@@ -31,35 +28,28 @@ long wasserstand2;
 
 
 void setup() {
-  // setup LED pin
-  //pinMode(13, OUTPUT);
-  // setup Pumpen pin
-  pinMode(2, OUTPUT);
-  pinMode(13, OUTPUT);
-  // set up the LCD's number of columns and rows:
+  // Pins für die Pumpen initialisieren
+  pinMode(pumpe1Pin, OUTPUT);
+  pinMode(pumpe2Pin, OUTPUT);
+  // Anzahl der Spalten und Zeilen des LCD festlegen
   lcd.begin(16, 2);
-  // Print a message to the LCD.
+  // Ausgabe auf LCD
   lcd.print("Wasserstand:");
-  // enable serial output
+  // Serial-Ausgabe aktivieren
   Serial.begin(9600);
   delay(1000);
 }
 
 void loop() {
-  // Auslesen des Wassersensors
-  //int waterReading = analogRead(waterPin);
-
-  // measure the distance
+  // Abstand messen
   abstand1=tank1.Distance();
   abstand2=tank2.Distance();
 
-  // calculate wasserstand
+  // Wasserstand berechnen
   wasserstand1=10-abstand1;
   wasserstand2=10-abstand2;
   
-  // write serial output
-  //Serial.print(waterReading);
-  //Serial.print(", ");
+  // Serial-Ausgabe
   Serial.print(wasserstand1);
   Serial.print(", ");
   Serial.print(wasserstand2);
@@ -69,20 +59,20 @@ void loop() {
   Serial.print(abstand2);
   Serial.print("\n");
   
-  // Write LCD Output
-  // set the cursor to column 0, line 1
-  // (note: line 1 is the second row, since counting begins with 0):
+  // LCD-Anzeige
+  // Cursor auf Spalte 0, Zeile 1 setzen
+  // (Hinweis: Zeile 1 ist die zweite Zeile, da bei 0 begonnen wird zu zählen):
   lcd.setCursor(0, 1);
-  // clear the line
+  // Inhalt der Zeile löschen
   for(int n = 0; n < 16; n++) {
     lcd.print(" ");
   }
-  // print the distance
-  // Tank 1 in first half of second row
+  // Wasserstand anzeigen
+  // Tank 1 in der ersten Hälfte der zweiten Zeile
   lcd.setCursor(0, 1);
   lcd.print(wasserstand1);
   lcd.print("cm");
-  // Tank 2 in second half of second row
+  // Tank 2 in der zweiten Hälfte der zweiten Zeile
   lcd.setCursor(7, 1);
   lcd.print("| ");
   lcd.print(wasserstand2);
@@ -92,7 +82,7 @@ void loop() {
   if(Serial.available()){
     command = Serial.readStringUntil('\n');
     command.trim();
-  // Befehlt bearbeiten
+  // Befehl bearbeiten (pumpen)
     if (command.equals("PUMPEN_1")){
       digitalWrite(pumpe1Pin,HIGH);
     }else{
@@ -104,14 +94,5 @@ void loop() {
       digitalWrite(pumpe2Pin,LOW) ;
     }
   }
-
-  // Warn-LED bei vollem Tank
-  //if ((abstand1 > 40) || (abstand1 < 5) || (abstand2 > 40) || (abstand2 < 5)) {
-  //  digitalWrite(13,HIGH);
-  //}else{
-  //  digitalWrite(13,LOW) ;
-  //}
-
   delay(1000);
 }
-
