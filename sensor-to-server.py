@@ -1,7 +1,7 @@
 # Wichtige Bibliotheken
-import socket # für UDP-Socket als Verbindung zum Server
-import serial # für Serial-Verbindung zum Arduino
-import time # für sleep Funktion
+import socket # fuer UDP-Socket als Verbindung zum Server
+import serial # fuer Serial-Verbindung zum Arduino
+import time # fuer sleep Funktion
 import threading # um zwei loops gleichzeitig laufen zu lassen
 
 pumpe1 = False
@@ -18,17 +18,7 @@ def arduino_pi_pi():
     # Serial Connection auslesen
     if ser.in_waiting > 0:
       line = ser.readline().decode('utf-8').rstrip()
-
-      # Daten auswerten
-      # daten[0]: Wasserstand Tank 1 in cm
-      # daten[1]: Wasserstand Tank 2 in cm
-      # daten[2]: Abstand zum Wasser Tank 1 in cm
-      # daten[3]: Abstand zum Wasser Tank 2 in cm
       daten = line.split(", ")
-
-      # Wassermenge berechnen
-      # wassermenge[0]: Wassermenge in Tank 1 in mL
-      # wassermenge[1]: Wassermenge in Tank 2 in mL
       wassermenge = [str(round((3.1415*5.5*5.5*float(daten[0])))), str(round((3.1415*5.5*5.5*float(daten[1]))))]
 
       # Daten lokal anzeigen
@@ -49,9 +39,6 @@ def arduino_pi_pi():
         print("Pumpe 1 stopp!")
         ser.write(b"\nSTOPP\n ")
         pumpe1 = False
-      #if (float(daten[1])<5) or (float(daten[1])>40):
-      #  print("Tank 2 voll")
-      #  ser.write(b"WARNING\n ")
     time.sleep(0.1)
 
 # Funktion zum Empfangen von Befehlen vom Server und weiterleiten an den Arduino
@@ -76,7 +63,7 @@ def pi_pi_arduino():
     if befehl == "STOPP":
       ser.write(b"\nSTOPP\n ")
       pumpe2 = False
-      
+
 if __name__ == '__main__':
   #Serielle Verbindung zum Arduino erstellen
   ser = serial.Serial( '/dev/ttyACM0' , 9600, timeout=1)
@@ -92,5 +79,5 @@ if __name__ == '__main__':
   t2.start()
   t1.join()
   t2.join()
-  
+
   print('Ende')

@@ -10,14 +10,18 @@ RPIsocket = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 RPIsocket . bind ((ServerIP, ServerPort))
 print( 'Server laeuft...')
 
+# Einbinden des Datenbanksmodul
 import mysql.connector
 
+# Verbinden mit der Datenbank
 my_db = mysql.connector.connect(
     host = "localhost",
     user = "tankadmin",
     password = "habehunger",
     database = "tanks",
 )
+
+# Einen Cursor vordefinieren, um die Eingabeaufforderungen in der Datenbank auszuführen
 my_cursor = my_db.cursor()
 
 # Warten auf eine Anfrage..
@@ -28,23 +32,24 @@ while True:
   daten = message.split(", ")
   #wasserdet = daten[0]
 
-  #Daten des Wassertanks in Variablen teilen
+  #Daten des Wassertanks in Variablen einteilen
   wassertank1 = daten[0]
   wassertank2 = daten[1]
   wassermenge1 = daten[2]
   wassermenge2 = daten[3]
   dateandtime = datetime.datetime.now()
-  # Execute the sql script
+  # Alle Daten in eine Tabelle hinzugefügen
   alldata = (wassertank1, wassermenge1, wassertank2, wassermenge2, dateandtime)
+  # SQL Skript Variable vordefinieren ( %s Patzhalten für die Daten in $alldata)
   sql = ("INSERT INTO tanks(tank1, wassermenge1, tank2, wassermenge2, timestamp)"
             "VALUES(%s,%s,%s,%s,%s)"
   )
+  # Das SQL Skript ausführen
   my_cursor.execute(sql, alldata)
-  # confirm changes to the database
+  # Die Änderung in der Datenbank genehmigen
   my_db.commit()
 
-  #Delete the last entry if the table has 60 entry
-  #Select the count from the table
+  # Den letzten Speicher der Datenbank löschen, wenn die Anzahl bei 60 liegt
   my_cursor.execute("SELECT COUNT(*) FROM tanks")
   result = my_cursor.fetchone()
 
