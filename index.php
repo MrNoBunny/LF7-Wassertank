@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta http-equiv="refresh" content="5">
     <style>
         body {
             font-family: Arial, sans-serif;
