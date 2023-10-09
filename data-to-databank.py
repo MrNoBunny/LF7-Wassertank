@@ -21,7 +21,7 @@ my_db = mysql.connector.connect(
     database = "tanks",
 )
 
-# Einen Cursor vordefinieren, um die Eingabeaufforderungen in der Datenbank auszuführen
+# Einen Cursor vordefinieren, um die Eingabeaufforderungen in der Datenbank auszufuehren
 my_cursor = my_db.cursor()
 
 # Warten auf eine Anfrage..
@@ -38,18 +38,18 @@ while True:
   wassermenge1 = daten[2]
   wassermenge2 = daten[3]
   dateandtime = datetime.datetime.now()
-  # Alle Daten in eine Tabelle hinzugefügen
+  # Alle Daten in eine Tabelle hinzugefuegen
   alldata = (wassertank1, wassermenge1, wassertank2, wassermenge2, dateandtime)
-  # SQL Skript Variable vordefinieren ( %s Patzhalten für die Daten in $alldata)
+  # SQL Skript Variable vordefinieren ( %s Patzhalten fuer die Daten in $alldata)
   sql = ("INSERT INTO tanks(tank1, wassermenge1, tank2, wassermenge2, timestamp)"
             "VALUES(%s,%s,%s,%s,%s)"
   )
-  # Das SQL Skript ausführen
+  # Das SQL Skript ausfuehren
   my_cursor.execute(sql, alldata)
-  # Die Änderung in der Datenbank genehmigen
+  # Die AEnderung in der Datenbank genehmigen
   my_db.commit()
 
-  # Den letzten Speicher der Datenbank löschen, wenn die Anzahl bei 60 liegt
+  # Den letzten Speicher der Datenbank loeschen, wenn die Anzahl bei 60 liegt
   my_cursor.execute("SELECT COUNT(*) FROM tanks")
   result = my_cursor.fetchone()
 
