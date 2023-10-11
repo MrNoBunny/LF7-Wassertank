@@ -28,7 +28,7 @@ my_cursor = my_db.cursor()
 while True:
   message, address = RPIsocket.recvfrom(bufferSize)
   message = message.decode( 'utf-8' )
-  # Antworten mit den Sensordaten..
+  # Antwort mit den Sensordaten..
   daten = message.split(", ")
   #wasserdet = daten[0]
 
